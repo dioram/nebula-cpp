@@ -12,7 +12,7 @@ nebula_add_test(
         $<TARGET_OBJECTS:nebula_common_obj>
         $<TARGET_OBJECTS:nebula_graph_client_obj>
     LIBRARIES
-        gtest
+        GTest::gtest
         ${NEBULA_THIRD_PARTY_LIBRARIES}
 )
 
@@ -26,7 +26,7 @@ nebula_add_test(
         $<TARGET_OBJECTS:nebula_common_obj>
         $<TARGET_OBJECTS:nebula_graph_client_obj>
     LIBRARIES
-        gtest
+        GTest::gtest
         ${NEBULA_THIRD_PARTY_LIBRARIES}
 )
 
@@ -40,7 +40,7 @@ nebula_add_test(
         $<TARGET_OBJECTS:nebula_common_obj>
         $<TARGET_OBJECTS:nebula_graph_client_obj>
     LIBRARIES
-        gtest
+        GTest::gtest
         ${NEBULA_THIRD_PARTY_LIBRARIES}
 )
 
@@ -67,7 +67,7 @@ nebula_add_test(
         $<TARGET_OBJECTS:nebula_common_obj>
         $<TARGET_OBJECTS:nebula_graph_client_obj>
     LIBRARIES
-        gtest
+        GTest::gtest
         ${NEBULA_THIRD_PARTY_LIBRARIES}
 )
 
@@ -81,7 +81,7 @@ nebula_add_test(
         $<TARGET_OBJECTS:nebula_common_obj>
         $<TARGET_OBJECTS:nebula_graph_client_obj>
     LIBRARIES
-        gtest
+        GTest::gtest
         ${NEBULA_THIRD_PARTY_LIBRARIES}
 )
 
@@ -95,7 +95,7 @@ nebula_add_test(
         $<TARGET_OBJECTS:nebula_common_obj>
         $<TARGET_OBJECTS:nebula_graph_client_obj>
     LIBRARIES
-        gtest
+        GTest::gtest
         ${NEBULA_THIRD_PARTY_LIBRARIES}
 )
 
@@ -109,7 +109,7 @@ nebula_add_test(
         $<TARGET_OBJECTS:nebula_common_obj>
         $<TARGET_OBJECTS:nebula_graph_client_obj>
     LIBRARIES
-        gtest
+        GTest::gtest
         ${NEBULA_THIRD_PARTY_LIBRARIES}
 )
 
@@ -123,6 +123,6 @@ nebula_add_test(
         $<TARGET_OBJECTS:nebula_common_obj>
         $<TARGET_OBJECTS:nebula_graph_client_obj>
     LIBRARIES
-        gtest
+        GTest::gtest
         ${NEBULA_THIRD_PARTY_LIBRARIES}
 )

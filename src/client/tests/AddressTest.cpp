@@ -33,7 +33,7 @@ TEST_F(AddressTest, Multiple) {
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   nebula::init(&argc, &argv);
-  google::SetStderrLogging(google::INFO);
+  google::SetStderrLogging(google::GLOG_ERROR);
 
   return RUN_ALL_TESTS();
 }

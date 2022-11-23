@@ -285,7 +285,7 @@ TEST_F(SessionTest, ExecuteParameter) {
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   nebula::init(&argc, &argv);
-  google::SetStderrLogging(google::INFO);
+  google::SetStderrLogging(google::GLOG_INFO);
 
   return RUN_ALL_TESTS();
 }

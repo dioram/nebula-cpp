@@ -22,7 +22,7 @@ DEFINE_bool(enable_ssl, false, "Enable SSL.");
 
 int main(int argc, char** argv) {
   nebula::init(&argc, &argv);
-  google::SetStderrLogging(google::INFO);
+  google::SetStderrLogging(google::GLOG_INFO);
 
   nebula::ConnectionPool pool;
   nebula::Config c{10, 0, 300, 0, "", FLAGS_enable_ssl};
