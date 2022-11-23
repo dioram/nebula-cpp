@@ -1,5 +1,5 @@
 param(
-    [string]$ThriftExecutable="/opt/vesoft/third-party/2.0/bin/thrift1.exe",
+    [string]$ThriftExecutable="/opt/vesoft/third-party/2.0/bin/thrift1",
     [bool]$SyncRemoteInterface=$false
 ) 
 

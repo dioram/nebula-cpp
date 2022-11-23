@@ -37,10 +37,16 @@ bash> ldconfig
 git clone https://github.com/vesoft-inc/nebula-cpp.git
 ```
 
+### generate sources
+
+```
+pwsh> Set-Location nebula-clients; pwsh -noprofile -executionpolicy bypass -file gen-interface.ps1 -ThriftExecutable <your facebook thrift compiler (by default /opt/vesoft/third-party/2.0/bin/thrift1)>
+```
+
 ### build
 
 ```bash
-bash> cd nebula-clients/cpp && mkdir build && cd build
+bash> cd nebula-clients && mkdir build && cd build
 bash> cmake ..
 bash> make && sudo make install
 ```
