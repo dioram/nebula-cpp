@@ -82,6 +82,7 @@ message("")
 find_package(folly CONFIG REQUIRED)
 set(folly_LIBRARIES Folly::folly Folly::folly_deps Folly::follybenchmark Folly::folly_test_util)
 
+find_package(gtest CONFIG REQUIRED)
 find_package(glog CONFIG REQUIRED)
 set(glog_LIBRARIES glog::glog)
 
@@ -102,9 +103,6 @@ find_package(FBThrift CONFIG REQUIRED)
 find_package(fizz CONFIG REQUIRED)
 find_package(folly CONFIG REQUIRED)
 set(FBThrift_LIBRARIES
-    ZLIB::ZLIB
-    glog::glog
-    fmt::fmt
     fizz::fizz
     ${Sodium_LIBRARY}
     wangle::wangle

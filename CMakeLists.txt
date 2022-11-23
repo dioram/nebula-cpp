@@ -44,7 +44,6 @@ include(ThirdPartyConfig)
 include(SanitizerConfig)
 include(GitInfoConfig)
 include(NebulaCustomTargets)
-
 include(GNUInstallDirs)
 
 include_directories(AFTER ${CMAKE_SOURCE_DIR}/include)
@@ -62,8 +61,6 @@ macro(nebula_add_library name type)
     )
 endmacro()
 
-nebula_add_shared_linker_flag("-Wl,--version-script=${CMAKE_SOURCE_DIR}/exported-symbols.map")
-
 nebula_add_subdirectory(src)
 nebula_add_subdirectory(examples)
 
@@ -79,9 +76,10 @@ install(
     PATTERN ".gitkeep" EXCLUDE
 )
 
+file(GLOB_RECURSE HEADER_FILES "include/*.h")
+file(GLOB_RECURSE SOURCE_FILES "src/*.cpp")
 add_custom_target(
-  format
-  COMMAND "find" "include" "src/client" "src/mclient" "src/sclient" "src/thrift" "src/datatypes" "src/time" "src/geo" "src/graph" "-type" "f" "\\(" "-iname" "\\*.h" "-o" "-iname" "\\*.cpp" "\\)" "|" "xargs" "clang-format" "-i"
+  format COMMAND clang-format "-i" ${HEADER_FILES} ${SOURCE_FILES}
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
@@ -90,3 +88,43 @@ package(ON
         "nebula-graph-client"
         "https://github.com/vesoft-inc/nebula-cpp/releases"
         ${CMAKE_SOURCE_DIR}/package)
+
+###############################################################################################
+# install
+###############################################################################################
+
+include(GNUInstallDirs)
+include(CMakePackageConfigHelpers)
+configure_package_config_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PACKAGE_NAME}Config.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}Config.cmake"
+    INSTALL_DESTINATION ${CMAKE_INSTALL_DATADIR}/${PACKAGE_NAME}
+)
+
+install(DIRECTORY include/ 
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
+install(FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/${PACKAGE_NAME}Config.cmake"
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/${PACKAGE_NAME}
+)
+
+install(TARGETS ${${PROJECT_NAME}_TARGET_NAME}
+   EXPORT ${PACKAGE_NAME}-export
+   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+   ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(EXPORT ${PACKAGE_NAME}-export
+    FILE
+    ${PACKAGE_NAME}Targets.cmake
+    NAMESPACE
+    ${PACKAGE_NAME}::
+    DESTINATION
+    ${CMAKE_INSTALL_DATADIR}/${PACKAGE_NAME}
+)
+
+install(FILES "${PROJECT_BINARY_DIR}/${PACKAGE_NAME}Config.cmake"
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/${PACKAGE_NAME}
+)

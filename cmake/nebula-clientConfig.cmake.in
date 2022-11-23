@@ -1,0 +1,17 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+#find_dependency(dep <REQUIRED> <components>)
+find_dependency(Boost REQUIRED)
+find_dependency(glog CONFIG REQUIRED)
+find_dependency(fmt CONFIG REQUIRED)
+find_dependency(ZLIB REQUIRED)
+find_dependency(Sodium REQUIRED)
+find_dependency(wangle CONFIG REQUIRED)
+find_dependency(FBThrift CONFIG REQUIRED)
+find_dependency(fizz CONFIG REQUIRED)
+find_dependency(folly CONFIG REQUIRED)
+
+include("${CMAKE_CURRENT_LIST_DIR}/@PACKAGE_NAME@Targets.cmake")
+check_required_components("@PACKAGE_NAME@")

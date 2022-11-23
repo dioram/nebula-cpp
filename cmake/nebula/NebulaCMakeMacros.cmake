@@ -77,33 +77,7 @@ macro(nebula_link_libraries target)
     target_link_libraries(
         ${target}
         ${ARGN}
-        folly
-        fmt
-        glog
-        gflags
-        boost_context
-        boost_system
-        boost_regex
-        boost_filesystem
-        boost_program_options
-        event
-        double-conversion
-        s2
-        ${OPENSSL_SSL_LIBRARY}
-        ${OPENSSL_CRYPTO_LIBRARY}
-        ${KRB5_LIBRARIES}
-        ${COMPRESSION_LIBRARIES}
-        ${JEMALLOC_LIB}
-        ${LIBUNWIND_LIBRARIES}
-        keyutils
-        resolv
-        dl
-        ${GETTIME_LIB}
-        ${libatomic_link_flags}
-        -pthread
-        z
-        ${COVERAGES}
-        ${Breakpad_LIBRARY}
+        ${NEBULA_THIRD_PARTY_LIBRARIES}
     )
 endmacro(nebula_link_libraries)
 

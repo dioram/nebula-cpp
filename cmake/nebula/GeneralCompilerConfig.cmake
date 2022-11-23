@@ -15,16 +15,10 @@ include(CheckCXXCompilerFlag)
 # For s2
 add_definitions(-DS2_USE_GLOG)
 add_definitions(-DS2_USE_GFLAGS)
-# For breakpad
-add_definitions(-D__STDC_FORMAT_MACROS)
-
-include_directories(AFTER ${CMAKE_SOURCE_DIR}/src)
-include_directories(AFTER ${CMAKE_CURRENT_BINARY_DIR}/src)
-
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ${ENABLE_PIC})
 
-if(ENABLE_TESTING AND ENABLE_COVERAGE)
+if(ENABLE_TESTING AND ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU")
     add_compile_options(--coverage)
     add_compile_options(-g)
     add_compile_options(-O0)

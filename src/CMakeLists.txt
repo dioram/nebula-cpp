@@ -88,36 +88,6 @@ nebula_add_library(
     ${NEBULA_COMMON_SOURCES}
 )
 
-target_link_libraries(
-    nebula_graph_client
-    ${NEBULA_THIRD_PARTY_LIBRARIES}
-)
-
-target_link_libraries(
-    nebula_meta_client
-    ${NEBULA_THIRD_PARTY_LIBRARIES}
-)
-
-target_link_libraries(
-    nebula_storage_client
-    ${NEBULA_THIRD_PARTY_LIBRARIES}
-)
-
-install(
-    TARGETS nebula_graph_client
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
-
-install(
-    TARGETS nebula_meta_client
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
-
-install(
-    TARGETS nebula_storage_client
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-)
-
 nebula_add_library(
     nebula_common_obj OBJECT
     ${NEBULA_COMMON_SOURCES}
@@ -138,6 +108,26 @@ nebula_add_library(
     ${NEBULA_SCLIENT_SOURCES}
 )
 
+include(GNUInstallDirs)
+foreach(LIBRARY nebula_graph_client nebula_meta_client nebula_storage_client nebula_common_obj nebula_graph_client_obj nebula_meta_client_obj nebula_storage_client_obj)
+    target_link_libraries(${LIBRARY} PUBLIC ${NEBULA_THIRD_PARTY_LIBRARIES})
+    target_include_directories(${LIBRARY}
+        PUBLIC
+            $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>
+            $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+        PRIVATE
+            $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/src>
+    )
+endforeach()
+
 nebula_add_subdirectory(client)
 nebula_add_subdirectory(sclient)
 nebula_add_subdirectory(mclient)
+
+
+install(TARGETS nebula_graph_client nebula_meta_client nebula_storage_client
+    EXPORT ${PACKAGE_NAME}-export
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
