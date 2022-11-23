@@ -14,7 +14,7 @@
 #  Sodium_LIBRARY          The Sodium library.
 
 find_path(Sodium_INCLUDE_DIR NAMES sodium)
-find_library(Sodium_LIBRARY NAMES libsodium.a)
+find_library(Sodium_LIBRARY NAMES sodium libsodium)
 
 if(Sodium_INCLUDE_DIR AND Sodium_LIBRARY)
     set(Sodium_FOUND TRUE)

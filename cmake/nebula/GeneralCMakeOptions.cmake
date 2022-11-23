@@ -1,9 +1,9 @@
 ############ Nebula defined options immutable during configure stage #############
 message(">>>> Options of ${PROJECT_NAME} <<<<")
-option(ENABLE_TESTING                   "Build unit tests" ON)
+option(ENABLE_TESTING                   "Build unit tests" OFF)
 option(ENABLE_CCACHE                    "Use ccache to speed up compiling" ON)
 option(ENABLE_WERROR                    "Regard warnings as errors" ON)
-option(ENABLE_JEMALLOC                  "Use jemalloc as memory allocator" ON)
+option(ENABLE_JEMALLOC                  "Use jemalloc as memory allocator" OFF)
 option(ENABLE_ASAN                      "Build with AddressSanitizer" OFF)
 option(ENABLE_UBSAN                     "Build with UndefinedBehaviourSanitizer" OFF)
 option(ENABLE_TSAN                      "Build with ThreadSanitizer" OFF)

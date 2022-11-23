@@ -8,6 +8,7 @@
 #include <folly/SocketAddress.h>
 #include <folly/io/async/AsyncSSLSocket.h>
 #include <folly/io/async/AsyncSocket.h>
+#include <folly/io/async/AsyncTransport.h>
 #include <folly/io/async/ScopedEventBaseThread.h>
 #include <thrift/lib/cpp2/async/HeaderClientChannel.h>
 
@@ -82,7 +83,7 @@ bool Connection::open(const std::string &address,
     return false;
   }
   bool complete{false};
-  std::shared_ptr<folly::AsyncSocket> socket;
+  folly::AsyncTransport::UniquePtr socket;
   folly::SocketAddress socketAddr;
   try {
     socketAddr = folly::SocketAddress(address, port, true);
@@ -94,16 +95,17 @@ bool Connection::open(const std::string &address,
       [this, &complete, &socket, timeout, &socketAddr, enableSSL, &CAPath]() {
         try {
           if (enableSSL) {
-            socket = folly::AsyncSSLSocket::newSocket(nebula::createSSLContext(CAPath),
+            auto asyncSSLSocket = folly::AsyncSSLSocket::newSocket(nebula::createSSLContext(CAPath),
                                                       clientLoopThread_->getEventBase());
-            socket->connect(nullptr, std::move(socketAddr), timeout);
+            asyncSSLSocket->connect(nullptr, std::move(socketAddr), timeout);
+            socket = std::move(asyncSSLSocket);
           } else {
             socket = folly::AsyncSocket::newSocket(
                 clientLoopThread_->getEventBase(), std::move(socketAddr), timeout);
           }
           complete = true;
         } catch (const std::exception &e) {
-          DLOG(ERROR) << "Connect failed: " << e.what();
+          //DLOG(ERROR) << "Connect failed: " << e.what();
           complete = false;
         }
       });
@@ -115,8 +117,9 @@ bool Connection::open(const std::string &address,
   }
   // TODO workaround for issue #72
   // socket->setErrMessageCB(&NebulaConnectionErrMessageCallback::instance());
-  auto channel = apache::thrift::HeaderClientChannel::newChannel(socket);
-  channel->setTimeout(timeout);
+  auto channel = apache::thrift::HeaderClientChannel::newChannel(std::move(socket));
+  channel->getEventBase()->runImmediatelyOrRunInEventBaseThreadAndWait(
+    [timeout, &channel] { channel->setTimeout(timeout); });
   client_ = new graph::cpp2::GraphServiceAsyncClient(std::move(channel));
   auto resp = verifyClientVersion(VerifyClientVersionReq{});
   if (resp.errorCode != ErrorCode::SUCCEEDED) {

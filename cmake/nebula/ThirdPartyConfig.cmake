@@ -78,83 +78,52 @@ endif()
 
 message("")
 
-find_package(Bzip2 REQUIRED)
-find_package(DoubleConversion REQUIRED)
-find_package(Fatal REQUIRED)
-find_package(Fbthrift REQUIRED)
-find_package(Folly REQUIRED)
-find_package(Gflags REQUIRED)
-find_package(Glog REQUIRED)
-find_package(Googletest REQUIRED)
-if(ENABLE_JEMALLOC)
-    find_package(Jemalloc REQUIRED)
-endif()
-find_package(Libevent REQUIRED)
-find_package(Proxygen REQUIRED)
-find_package(Rocksdb REQUIRED)
-find_package(Snappy REQUIRED)
-find_package(Wangle REQUIRED)
-find_package(ZLIB REQUIRED)
-find_package(Zstd REQUIRED)
-find_package(OpenSSL REQUIRED)
-find_package(Krb5 REQUIRED gssapi)
-find_package(Boost REQUIRED)
-find_package(Libunwind REQUIRED)
-find_package(BISON 3.0.5 REQUIRED)
-include(MakeBisonRelocatable)
-find_package(FLEX REQUIRED)
-find_package(LibLZMA REQUIRED)
-find_package(Fizz REQUIRED)
-find_package(Sodium REQUIRED)
-if (${CMAKE_HOST_SYSTEM_PROCESSOR} MATCHES "x86_64")
-    find_package(Breakpad REQUIRED)
-endif()
 
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L ${NEBULA_THIRDPARTY_ROOT}/lib")
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L ${NEBULA_THIRDPARTY_ROOT}/lib64")
+find_package(folly CONFIG REQUIRED)
+set(folly_LIBRARIES Folly::folly Folly::folly_deps Folly::follybenchmark Folly::folly_test_util)
+
+find_package(glog CONFIG REQUIRED)
+set(glog_LIBRARIES glog::glog)
+
+find_package(Boost REQUIRED)
+find_package(Sodium REQUIRED)
+
+# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L ${NEBULA_THIRDPARTY_ROOT}/lib")
+# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -L ${NEBULA_THIRDPARTY_ROOT}/lib64")
+
 
 # All thrift libraries
-set(THRIFT_LIBRARIES
-    thriftcpp2
-    rocketupgrade
-    async
-    thriftprotocol
-    transport
-    concurrency
-    thriftfrozen2
-    thrift-core
-    rpcmetadata
-    thriftmetadata
-    wangle
-    fizz
-    sodium
+find_package(glog CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
+find_package(ZLIB REQUIRED)
+find_package(Sodium REQUIRED)
+find_package(wangle CONFIG REQUIRED)
+find_package(FBThrift CONFIG REQUIRED)
+find_package(fizz CONFIG REQUIRED)
+find_package(folly CONFIG REQUIRED)
+set(FBThrift_LIBRARIES
+    ZLIB::ZLIB
+    glog::glog
+    fmt::fmt
+    fizz::fizz
+    ${Sodium_LIBRARY}
+    wangle::wangle
+    FBThrift::compiler_ast
+    FBThrift::compiler_base
+    FBThrift::compiler_lib
+    FBThrift::mustache_lib
+    FBThrift::thrift-core
+    FBThrift::concurrency
+    FBThrift::transport
+    FBThrift::async
+    FBThrift::thrift
+    FBThrift::rpcmetadata
+    FBThrift::thriftmetadata
+    FBThrift::thriftfrozen2
+    FBThrift::thrifttype
+    FBThrift::thriftprotocol
+    FBThrift::thriftcpp2
+    Folly::folly
 )
-
-set(PROXYGEN_LIBRARIES
-    proxygenhttpserver
-    proxygen
-    wangle
-    fizz
-    sodium
-)
-
-set(ROCKSDB_LIBRARIES ${Rocksdb_LIBRARY})
-
-# All compression libraries
-set(COMPRESSION_LIBRARIES bz2 snappy zstd z lz4)
-if (LIBLZMA_FOUND)
-    include_directories(SYSTEM ${LIBLZMA_INCLUDE_DIRS})
-    list(APPEND COMPRESSION_LIBRARIES ${LIBLZMA_LIBRARIES})
-endif()
-
-if (NOT ENABLE_JEMALLOC OR ENABLE_ASAN OR ENABLE_UBSAN)
-    set(JEMALLOC_LIB )
-else()
-    set(JEMALLOC_LIB jemalloc)
-endif()
-
-if (Breakpad_FOUND)
-    include_directories(AFTER SYSTEM ${Breakpad_INCLUDE_DIR}/breakpad)
-endif()
 
 message(">>>> Configuring third party for '${PROJECT_NAME}' done <<<<")

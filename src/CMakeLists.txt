@@ -59,53 +59,30 @@ set(NEBULA_SCLIENT_SOURCES
 set(NEBULA_THIRD_PARTY_LIBRARIES
     ${OPENSSL_SSL_LIBRARY}
     ${OPENSSL_CRYPTO_LIBRARY}
-    ${THRIFT_LIBRARIES}
-    wangle
-    folly
-    boost_context
-    boost_system
-    glog
-    gflags
-    snappy
-    z
-    zstd
-    lz4
-    lzma
-    bz2
-    event
-    double-conversion
-    pthread
-    dl
-    ssl
-    crypto
-    bz2
-    fmt
-    unwind
-    -static-libgcc
-    -static-libstdc++
-    -Wl,--no-undefined
-    ${GETTIME_LIB}
-    ${libatomic_link_flags}
+    ${FBThrift_LIBRARIES}
+    ${folly_LIBRARIES}
+    ${glog_LIBRARIES}
+    ${Boost_LIBRARIES}
 )
 
 nebula_add_subdirectory(interface)
 
 nebula_add_library(
-    nebula_graph_client SHARED
+    nebula_graph_client
     ${NEBULA_CLIENT_OBJS}
     ${NEBULA_CLIENT_SOURCES}
     ${NEBULA_COMMON_SOURCES}
 )
 
 nebula_add_library(
-    nebula_meta_client SHARED
+    nebula_meta_client
     ${NEBULA_MCLIENT_OBJS}
     ${NEBULA_MCLIENT_SOURCES}
     ${NEBULA_COMMON_SOURCES}
 )
 
 nebula_add_library(
-    nebula_storage_client SHARED
+    nebula_storage_client
     ${NEBULA_SCLIENT_OBJS}
     ${NEBULA_SCLIENT_SOURCES}
     ${NEBULA_COMMON_SOURCES}

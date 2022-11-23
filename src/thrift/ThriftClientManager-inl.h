@@ -68,22 +68,24 @@ std::shared_ptr<ClientType> ThriftClientManager<ClientType>::client(const HostAd
   }
 
   VLOG(2) << "Connecting to " << host << " for " << ++connectionCount << " times";
-  std::shared_ptr<folly::AsyncSocket> socket;
+  folly::AsyncTransport::UniquePtr socket;
   evb->runImmediatelyOrRunInEventBaseThreadAndWait([this, &socket, evb, resolved]() {
     if (enableSSL_) {
-      socket = folly::AsyncSSLSocket::newSocket(nebula::createSSLContext(CAPath_), evb);
-      socket->connect(nullptr, resolved.host, resolved.port, connTimeoutInMs_);
+      auto asyncSSLSocket = folly::AsyncSSLSocket::newSocket(nebula::createSSLContext(CAPath_), evb);
+      asyncSSLSocket->connect(nullptr, resolved.host, resolved.port, connTimeoutInMs_);
+      socket = std::move(asyncSSLSocket);
     } else {
       socket = folly::AsyncSocket::newSocket(evb, resolved.host, resolved.port, connTimeoutInMs_);
     }
   });
-  auto headerClientChannel = apache::thrift::HeaderClientChannel::newChannel(socket);
+  auto headerClientChannel = apache::thrift::HeaderClientChannel::newChannel(std::move(socket));
   if (timeout > 0) {
     headerClientChannel->setTimeout(timeout);
   }
   if (compatibility) {
-    headerClientChannel->setProtocolId(apache::thrift::protocol::T_BINARY_PROTOCOL);
-    headerClientChannel->setClientType(THRIFT_UNFRAMED_DEPRECATED);
+    // TODO: find working overloadings
+    //headerClientChannel->setProtocolId(apache::thrift::protocol::T_BINARY_PROTOCOL);
+    //headerClientChannel->setClientType(THRIFT_UNFRAMED_DEPRECATED);
   }
   std::shared_ptr<ClientType> client(
       new ClientType(std::move(headerClientChannel)),

@@ -32,6 +32,9 @@ struct Tag {
   void __clear() {
     clear();
   }
+  void __fbthrift_clear() {
+    clear();
+  }
 
   std::string toString() const;
 
@@ -71,6 +74,9 @@ struct Vertex {
   }
 
   void __clear() {
+    clear();
+  }
+  void __fbthrift_clear() {
     clear();
   }
 

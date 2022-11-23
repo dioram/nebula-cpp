@@ -69,29 +69,14 @@ ${CMAKE_SOURCE_DIR}/src/interface/gen-cpp2/GraphStorageService_processmap_binary
 ${CMAKE_SOURCE_DIR}/src/interface/gen-cpp2/GraphStorageService_processmap_compact.cpp
 )
 
+add_library(common_thrift_obj OBJECT ${common-cpp2-SOURCES})
+target_link_libraries(common_thrift_obj ${FBThrift_LIBRARIES} ${folly_LIBRARIES})
 
-add_compile_options(-fPIC)
+add_library(graph_thrift_obj OBJECT ${graph-cpp2-SOURCES})
+target_link_libraries(graph_thrift_obj ${FBThrift_LIBRARIES} ${folly_LIBRARIES})
 
-add_library(
-  "common_thrift_obj"
-  OBJECT
-  ${common-cpp2-SOURCES}
-)
+add_library(meta_thrift_obj OBJECT ${meta-cpp2-SOURCES})
+target_link_libraries(meta_thrift_obj ${FBThrift_LIBRARIES} ${folly_LIBRARIES})
 
-add_library(
-  "graph_thrift_obj"
-  OBJECT
-  ${graph-cpp2-SOURCES}
-)
-
-add_library(
-  "meta_thrift_obj"
-  OBJECT
-  ${meta-cpp2-SOURCES}
-)
-
-add_library(
-  "storage_thrift_obj"
-  OBJECT
-  ${storage-cpp2-SOURCES}
-)
+add_library(storage_thrift_obj OBJECT ${storage-cpp2-SOURCES})
+target_link_libraries(storage_thrift_obj ${FBThrift_LIBRARIES} ${folly_LIBRARIES})

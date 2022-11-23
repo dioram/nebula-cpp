@@ -35,22 +35,22 @@ add_executable(session_example
     SessionExample.cpp
 )
 
-add_executable(session_pool_example
-    SessionPoolExample.cpp
-)
-
-add_executable(storage_client_example
-    StorageClientExample.cpp
-)
-
 target_link_libraries(session_example
     PRIVATE
         nebula_graph_client
 )
 
+add_executable(session_pool_example
+    SessionPoolExample.cpp
+)
+
 target_link_libraries(session_pool_example
     PRIVATE
         nebula_graph_client
+)
+
+add_executable(storage_client_example
+    StorageClientExample.cpp
 )
 
 target_link_libraries(storage_client_example

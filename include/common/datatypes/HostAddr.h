@@ -33,6 +33,9 @@ struct HostAddr {
   void __clear() {
     clear();
   }
+  void __fbthrift_clear() {
+    clear();
+  }
 
   std::string toString() const {
     std::stringstream os;

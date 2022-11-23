@@ -39,6 +39,12 @@ struct KeyValue {
     }
     return value < rhs.value;
   }
+
+  KeyValue& operator=(const KeyValue& v) {
+    key = v.key;
+    value = v.value;
+    return *this;
+  }
 };
 
 }  // namespace nebula

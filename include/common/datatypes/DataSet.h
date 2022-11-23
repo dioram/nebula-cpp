@@ -140,6 +140,10 @@ struct DataSet {
     clear();
   }
 
+  void __fbthrift_clear() {
+    clear();
+  }
+
   std::size_t size() const {
     return rowSize();
   }

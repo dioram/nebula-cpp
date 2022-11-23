@@ -37,6 +37,10 @@ modules
 
 # IDE
 .vscode/
+compile_commands.json
+
+# generated source
+/src/interface/gen-cpp2
 
 # Coredump
 core.*

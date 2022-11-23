@@ -52,6 +52,9 @@ struct Coordinate {
   void __clear() {
     clear();
   }
+  void __fbthrift_clear() {
+    clear();
+  }
 
   bool operator==(const Coordinate& rhs) const {
     return std::abs(x - rhs.x) < kEpsilon && std::abs(y - rhs.y) < kEpsilon;
@@ -83,6 +86,9 @@ struct Point {
   void __clear() {
     clear();
   }
+  void __fbthrift_clear() {
+    clear();
+  }
 
   bool operator==(const Point& rhs) const {
     return coord == rhs.coord;
@@ -109,6 +115,9 @@ struct LineString {
   void __clear() {
     clear();
   }
+  void __fbthrift_clear() {
+    clear();
+  }
 
   bool operator==(const LineString& rhs) const {
     return coordList == rhs.coordList;
@@ -133,6 +142,9 @@ struct Polygon {
     coordListList.clear();
   }
   void __clear() {
+    clear();
+  }
+  void __fbthrift_clear() {
     clear();
   }
 
@@ -178,6 +190,9 @@ struct Geography {
   }
 
   void __clear() {
+    clear();
+  }
+  void __fbthrift_clear() {
     clear();
   }
 

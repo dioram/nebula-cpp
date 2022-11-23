@@ -22,7 +22,7 @@ cmake_minimum_required(VERSION 3.5.0)
 project("Nebula C++ Client" C CXX)
 set(PACKAGE_NAME "nebula-client")
 
-set(CMAKE_CXX_STANDARD 11)  # specify the C++ standard
+set(CMAKE_CXX_STANDARD 17)  # specify the C++ standard
 
 option(ENABLE_MODULE_UPDATE "Automatically update module" OFF)
 option(DISABLE_CLONE_COMMON "Automatically disable clone common module" OFF)
@@ -42,12 +42,8 @@ include(LinkerConfig)
 include(CcacheConfig)
 include(ThirdPartyConfig)
 include(SanitizerConfig)
-include(GitHooksConfig)
 include(GitInfoConfig)
 include(NebulaCustomTargets)
-
-set(ENABLE_PIC ON FORCE)
-set(ENABLE_JEMALLOC OFF FORCE)
 
 include(GNUInstallDirs)
 
@@ -66,14 +62,10 @@ macro(nebula_add_library name type)
     )
 endmacro()
 
-nebula_add_shared_linker_flag(-static-libstdc++)
-nebula_add_shared_linker_flag(-static-libgcc)
-nebula_add_shared_linker_flag(-rdynamic)
-nebula_add_shared_linker_flag(-Wl,--no-undefined)
 nebula_add_shared_linker_flag("-Wl,--version-script=${CMAKE_SOURCE_DIR}/exported-symbols.map")
 
-
 nebula_add_subdirectory(src)
+nebula_add_subdirectory(examples)
 
 install(
     DIRECTORY include/nebula

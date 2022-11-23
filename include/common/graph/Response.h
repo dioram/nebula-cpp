@@ -215,6 +215,10 @@ struct AuthResponse {
     __clear();
   }
 
+  void __fbthrift_clear() {
+    __clear();
+  }
+
   bool operator==(const AuthResponse &rhs) const {
     if (errorCode != rhs.errorCode) {
       return false;
@@ -247,6 +251,10 @@ struct ProfilingStats {
   }
 
   void clear() {
+    __clear();
+  }
+
+  void __fbthrift_clear() {
     __clear();
   }
 
@@ -284,6 +292,10 @@ struct PlanNodeBranchInfo {
     __clear();
   }
 
+  void __fbthrift_clear() {
+    __clear();
+  }
+
   bool operator==(const PlanNodeBranchInfo &rhs) const {
     return isDoBranch == rhs.isDoBranch && conditionNodeId == rhs.conditionNodeId;
   }
@@ -301,6 +313,10 @@ struct Pair {
   }
 
   void clear() {
+    __clear();
+  }
+
+  void __fbthrift_clear() {
     __clear();
   }
 
@@ -324,6 +340,10 @@ struct PlanNodeDescription {
   }
 
   void clear() {
+    __clear();
+  }
+
+  void __fbthrift_clear() {
     __clear();
   }
 
@@ -353,6 +373,10 @@ struct PlanDescription {
     __clear();
   }
 
+  void __fbthrift_clear() {
+    __clear();
+  }
+
   bool operator==(const PlanDescription &rhs) const {
     return planNodeDescs == rhs.planNodeDescs && nodeIndexMap == rhs.nodeIndexMap &&
            format == rhs.format;
@@ -379,6 +403,10 @@ struct ExecutionResponse {
   }
 
   void clear() {
+    __clear();
+  }
+
+  void __fbthrift_clear() {
     __clear();
   }
 

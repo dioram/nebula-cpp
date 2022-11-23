@@ -76,7 +76,7 @@ struct Value {
     DATASET = 1UL << 14,
     GEOGRAPHY = 1UL << 15,
     DURATION = 1UL << 16,
-    NULLVALUE = 1UL << 63,
+    NULLVALUE = 1ULL << 63,
   };
 
   // Constructors
@@ -212,6 +212,9 @@ struct Value {
   void clear();
 
   void __clear() {
+    clear();
+  }
+  void __fbthrift_clear() {
     clear();
   }
 

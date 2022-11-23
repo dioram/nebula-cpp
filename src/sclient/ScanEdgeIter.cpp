@@ -39,8 +39,8 @@ DataSet ScanEdgeIter::next() {
   }
   auto scanResponse = r.second;
   if (!scanResponse.get_result().get_failed_parts().empty()) {
-    auto errorCode = scanResponse.get_result().get_failed_parts()[0].code;
-    LOG(ERROR) << "Scan edge failed, errorcode: " << static_cast<int32_t>(errorCode);
+    auto errorCode = scanResponse.get_result().get_failed_parts()[0].code();
+    LOG(ERROR) << "Scan edge failed, errorcode: " << static_cast<int32_t>(errorCode.value());
     this->hasNext_ = false;
     return DataSet();
   }
